@@ -1,0 +1,88 @@
+Options -Indexes
+
+DirectoryIndex index.php
+
+#ErrorDocument 404 http://www.gozoop.com/404/
+
+AddDefaultCharset UTF-8
+FileETag None
+
+
+Options +FollowSymLinks -MultiViews
+
+RewriteEngine On
+RewriteCond %{HTTP_HOST} ^gozoop.com [NC]
+RewriteRule ^(.*)$ http://www.gozoop.com/test/artify/$1 [L,R=301,NC]
+
+RewriteEngine On
+RewriteBase /test/artify/
+
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+
+RewriteCond %{REQUEST_FILENAME}.php -f
+RewriteRule !.*\.php$ %{REQUEST_FILENAME}.php [QSA,L]
+
+#RewriteRule (.*) stores.php?store_slug=$1 [L]
+
+
+
+#RewriteRule ^/?$ index.php? [L]
+#RewriteRule ^404/?$ 404.php? [L]
+#RewriteRule ^about-us/?$ about-us.php [L]
+
+#RewriteRule ^find-a-program/?$ find-a-program-page.php [L]
+#RewriteRule ^find-a-program/micro-masters/mmai/?$ micro-masters-programs.php [L]
+#RewriteRule ^find-a-program/career-programs/cemp/?$ career-programs-cemp.php [L]
+
+#RewriteRule ^find-a-program/certificate-programs/?$ find-certificate-programs.php [L]
+
+#RewriteRule ^find-a-program/open-programs/?$ open-programs.php [L]
+
+#RewriteRule ^find-a-program/custom-programs/?$ custom-programs.php [L]
+
+
+
+
+
+AddOutputFilterByType DEFLATE text/plain
+AddOutputFilterByType DEFLATE text/html
+AddOutputFilterByType DEFLATE text/xml
+AddOutputFilterByType DEFLATE text/css
+AddOutputFilterByType DEFLATE application/xml
+AddOutputFilterByType DEFLATE application/xhtml+xml
+AddOutputFilterByType DEFLATE application/rss+xml
+AddOutputFilterByType DEFLATE application/javascript
+AddOutputFilterByType DEFLATE application/x-javascript
+
+<IfModule mod_expires.c>
+  ExpiresActive on
+  ExpiresByType text/html "access plus 0 seconds"
+  ExpiresByType audio/ogg "access plus 1 month"
+  ExpiresByType image/gif "access plus 1 month"
+  ExpiresByType image/jpeg "access plus 1 month"
+  ExpiresByType image/png "access plus 1 month"
+  ExpiresByType video/mp4 "access plus 1 month"
+  ExpiresByType video/ogg "access plus 1 month"
+  ExpiresByType video/webm "access plus 1 month"
+  ExpiresByType application/x-font-ttf A31536000
+  ExpiresByType application/javascript "access plus 1 year"
+  ExpiresByType text/css "access plus 1 year"
+</IfModule>
+
+# protect from sql injection
+Options +FollowSymLinks
+RewriteEngine On
+RewriteCond %{QUERY_STRING} (\<|%3C).*script.*(\>|%3E) [NC,OR]
+RewriteCond %{QUERY_STRING} GLOBALS(=|\[|\%[0-9A-Z]{0,2}) [OR]
+RewriteCond %{QUERY_STRING} _REQUEST(=|\[|\%[0-9A-Z]{0,2})
+RewriteRule ^(.*)$ <?=$baseurl;?> [F,L]
+
+RewriteEngine On
+
+# STRONG HTACCESS PROTECTION</code>
+<Files ~ "^.*\.([Hh][Tt][Aa])">
+order allow,deny
+deny from all
+satisfy all
+</Files>
